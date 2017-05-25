@@ -1,0 +1,18 @@
+stages:
+  - build
+
+mr:
+  image: maven
+  stage: build
+  except: 
+    - master
+  script:
+    - mvn -U -Dsonar.analysis.mode=preview -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.gitlab.commit_sha=$CI_COMMIT_SHA -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME clean verify sonar:sonar
+
+merged:
+  image: maven
+  stage: build
+  only: 
+    - master
+  script:
+    - mvn -U -X clean install sonar:sonar 
