@@ -5,28 +5,30 @@
  */
 package fr.iut.qualite.ggetter.infosgetter.pageinfos;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Rule;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.rules.ExpectedException;
 
-/**
- *
- * @author picouyperr
- */
 public class GooglePageInformationsTest {
+	@Rule
+	public ExpectedException expectedEx = ExpectedException.none();
 
-
-    /**
-     * Test of getInformations method, of class GooglePageInformations.
-     */
-    @Test
-    public void testGetInformations() {
-//        System.out.println("getInformations");
-//        GooglePageInformations instance = null;
-//        String expResult = "";
-//        String result = instance.getInformations();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+	@Test
+    public void shouldReturnGoodInformations() {
+        final GooglePageInformations page = new GooglePageInformations("https://www.google.fr/", 1234, "urlImage");
+        final String expResult = "Google page : [url : https://www.google.fr/][Weight : 1234Ko][image url : urlImage]";
+        final String result = page.getInformations();
+        assertEquals(expResult, result);
     }
     
+	@Test
+    public void shouldThrowIllegalArgumentExceptionNoUrlImage() throws IllegalArgumentException {
+    	final String expError = "Can't build page informations without image url";
+    	expectedEx.expect(IllegalArgumentException.class);
+    	expectedEx.expectMessage(expError);
+    	
+    	new GooglePageInformations("https://www.google.fr/", 1234, "");
+    }
 }

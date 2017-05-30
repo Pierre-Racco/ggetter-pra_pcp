@@ -5,61 +5,42 @@
  */
 package fr.iut.qualite.ggetter.infosgetter;
 
-import fr.iut.qualite.ggetter.infosgetter.pageinfos.GoodPageInformation;
 import fr.iut.qualite.ggetter.infosgetter.pageinfos.PageInformations;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author picouyperr
- */
 public class UrlReaderTest {
     
-    public UrlReaderTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of getInformations method, of class UrlReader.
-     */
     @Test
-    public void testGetInformations() {
+    public void shouldReturnInformationsGoodPage() {
         URL url = null;
         try {
             url = new URL("https://www.google.fr/");
         } catch (MalformedURLException ex) {
-            Logger.getLogger(UrlReaderTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
         }
-//        PageInformations expResult = new GoodPageInformation;
-        PageInformations result = UrlReader.getInformations(url);
-//        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-        assertNotNull(result);
+        PageInformations expPage = UrlReaderGoldenMaster.getInformations(url);
+        PageInformations page = UrlReader.getInformations(url);
+        // C'est pas fou ça ...
+        assertEquals(expPage.getInformations().substring(0, url.toString().length() + 18), page.getInformations().substring(0, url.toString().length() + 18));
+    }
+    
+    @Test
+    public void shouldReturnInformationsGooglePage() {
+        URL url = null;
+        try {
+            url = new URL("https://www.google.com/doodles/france-elections-2017-part-2");
+        } catch (MalformedURLException ex) {
+            fail();
+        }
+        PageInformations expPage = UrlReaderGoldenMaster.getInformations(url);
+        PageInformations page = UrlReader.getInformations(url);
+        // C'est pas fou ça ...
+        assertEquals(expPage.getInformations().substring(0, url.toString().length() + 18), page.getInformations().substring(0, url.toString().length() + 18));
     }
     
 }

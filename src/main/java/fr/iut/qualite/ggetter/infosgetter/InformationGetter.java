@@ -43,7 +43,7 @@ class InformationGetter extends Observable implements Runnable {
 	public void run() {
 		PageInformations informations = null;
 		try {
-			informations = UrlReader.getInformations(url);
+			informations = UrlReaderGoldenMaster.getInformations(url);
 		} catch (final Throwable e) {
 			logger.error("Eror getting page information : " + e.getMessage(), e);
 			informations = new ErrorPageInformation(url.toExternalForm(), e.getMessage());
